@@ -19,7 +19,12 @@ class BooksController @Inject()(val controllerComponents: ControllerComponents, 
     dataRepository.getBook(bookId) foreach { book =>
       bookToReturn = book
     }
-    Ok(Json.toJson(bookToReturn))
+    if(bookToReturn != null) {
+      Ok(Json.toJson(bookToReturn))
+    }
+    else {
+      NotFound(s"No book was found for the book id $bookId")
+    }
   }
 
   def addBook() : Action[AnyContent] = Action {
@@ -35,9 +40,20 @@ class BooksController @Inject()(val controllerComponents: ControllerComponents, 
         )
 
       val savedBook: Option[Book] = dataRepository.addBook(bookItem.get)
-      Created(Json.toJson(savedBook))
+      if(!savedBook.isEmpty)
+        Created(Json.toJson(savedBook))
+      else
+        Conflict("The book already exists.")
     }
+  }
 
-
+  def deleteBook(bookId: Long): Action[AnyContent] = Action {
+    val result:Boolean = dataRepository.deleteBook(bookId)
+    if (!result) {
+      NotFound("That book does not exist.")
+    }
+    else {
+      NoContent
+    }
   }
 }

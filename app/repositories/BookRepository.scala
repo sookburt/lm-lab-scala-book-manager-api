@@ -40,4 +40,14 @@ class BookRepository {
     }
   }
 
+  def deleteBook(bookId: Long): Boolean = {
+    // check book exists first
+    val book = bookList.find(b => b.id == bookId)
+    var success = false
+    if(!book.isEmpty){
+      success = bookList.remove(book.get)
+    }
+    success
+  }
+
 }
