@@ -1,5 +1,22 @@
-@()
+@(input:String)
 
 @main("Welcome to Play") {
-  <h1>Welcome to Play!</h1>
+  <h1>Welcome to Play Sue!</h1>
+  <p>The route file routes any get request to / to the HomeController.index method.</p>
+  <p>The HomeController index method simply points to views.html.index which must, under the covers
+    resolve to the index.scala.html file wrapped with the main.scala.html contents.</p>
+  <p>It appears that the contents of this main template is injected
+    into the main.scala.html through the content template tag. Interestingly, adding the 'at' sign in
+    the html here confused the compiler as it threw an exception implying that I might be able to inject something
+    into this file too.</p>
+  <p>Attempting to add the [ @input ] here - yep, added "hello" into the parameter calling this html file
+    and added input:String in the 'at' sign token at the top then called with 'at'input here (adding the variable name
+    into the brackets), so I know I can pass a parameter through to the views through that mechanism.</p>
+  <p>Trying to add another input now... are the comma separated? I can't seem to do that...
+    wanted to add a number but the compiler complained in the controller - "too many parameters for method
+    apply: String", so it appears that it is using the 200 OK action to render this and therefore will only accept
+    one string.</p>
+  <p>This is a bit like .NET Razor syntax and yet, patently, not...</p>
+  <p>Interestingly, I added another at(num: Integer) at the top to test, but it didn't work, so I commented it out and
+  in it's commented out state, it still caused an error to be thrown... odd!</p>
 }
